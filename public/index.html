@@ -27,6 +27,30 @@
      border-bottom: 1px solid #FFF;
      box-shadow: 0 1px 0 0 #FFF;
    }
+   .input-field input[type=text]:focus + label {
+     color: #FFF;
+   }
+   /* label underline focus color */
+   .input-field input[type=text]:focus {
+     border-bottom: 1px solid #FFF;
+     box-shadow: 0 1px 0 0 #FFF;
+   }
+   .input-field textarea.materialize-textarea:focus + label {
+     color: #FFF;
+   }
+   /* label underline focus color */
+   .input-field textarea.materialize-textarea:focus {
+     border-bottom: 1px solid #FFF;
+     box-shadow: 0 1px 0 0 #FFF;
+   }
+   .input-field input[type=tel]:focus + label {
+     color: #FFF;
+   }
+   /* label underline focus color */
+   .input-field input[type=tel]:focus {
+     border-bottom: 1px solid #FFF;
+     box-shadow: 0 1px 0 0 #FFF;
+   }
    .input-field input[type=password]:focus + label {
      color: #FFF;
    }
@@ -41,14 +65,6 @@
 	<script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
 	<script>
 		var myFirebaseRef = new Firebase("https://bald-and-beautiful.firebaseio.com/");
-		myFirebaseRef.set({
-			"dmattia": {
-				"goal": 50,
-				"pictureURL": "profile_pics/dmattia",
-				"description": "I am a junior computer science major hoping to raise some money",
-				"money raised": 20
-			}
-		});
 
 		function AttemptToLogin() {
 			myFirebaseRef.authWithPassword({
@@ -63,6 +79,40 @@
 					console.log("Authenticated successfully with payload:", authData);
 				}
 			});
+			return false
+		}
+
+		function CreateNewAccount() {
+			var email_text = document.getElementById("email_create").value
+			var netid = email_text.substring(0, email_text.indexOf("@"))
+			var goal_amount = document.getElementById("goal").value
+			var password1 = document.getElementById("password1").value
+			var password2 = document.getElementById("password2").value
+			var description = document.getElementById("description").value
+			
+			if (password1 === password2) {
+				myFirebaseRef.createUser({
+					email: email_text,
+					password: password1
+				}, function(error, userData) {
+					if (error) {
+						alert("Could not create user. Check internet connection and try again");
+						console.log("Error creating user:", error);
+					} else {
+						alert("Success! User has been created");
+						dict = {}
+						dict[netid] = {}
+						dict[netid]["goal"] = goal_amount
+						dict[netid]["pictureURL"] =  ""
+						dict[netid]["description"] = description
+						dict[netid]["raised so far"] = 0
+						myFirebaseRef.set(dict);
+					}
+				});
+			} else {
+				alert("Passwords must be the same");
+			}
+
 			return false
 		}
 	</script>
@@ -572,39 +622,40 @@
 
 <div id="registerContent">
 
-	<span>Join the fight against cancer by registering with The Bald & The Beautiful in 1 of 3 ways:</span>
-	<img src="images/salon.JPG" id="popupSalon" />
-	
-	<br> <br>
-	
-	<div class="circle-text" onclick="window.open(                      )"><div>1.</div></div>
-	
-	<div class="description">
-		<span style="cursor: pointer" onclick="window.open('https://docs.google.com/forms/d/1VJXa88x_12qpGT3v4cn1YUQa3LlVGUHGO71uHcwig1U/viewform', 'width=400, height=200')"><u>DONATE 8 OR MORE INCHES OF HAIR.</u></span> 
-		<span>Pantene Beautiful Lengths will donate healthy hair to make wigs for cancer patients.
-		Bleached, permanently colored, or chemically treated hair cannot be accepted.
-		</span>
-		<h3 id="popupTrigger">All those who pre-register will be entered into a raffle for <u>this</u> bag of hair products and gift card to Salon Rouge! Valued at $120!</h3>
-		<br>
-	</div>
-	
-	<br> <br> <br> <br>
-	
-	<div class="circle-text" onclick="window.open(                         )"><div>2.</div></div>
-	
-	<div class="description">
-		<span style="cursor: pointer" onclick="window.open('https://docs.google.com/forms/d/1bVyvDGPRbrA88wWgbkM4YJPxKDazev1m8tDr3xJwxho/viewform', 'width=400, height=200')"><u>                                          SHAVE YOUR HEAD.</u></span>
-		<span>Proceeds benefit St. Baldrick's Foundation.</span>
-	</div>
-	
-	<br> <br> <br> <br>
-	
-	<div class="circle-text" onclick="window.open(                              )"><div>3.</div></div>
-	
-	<div class="description">
-		<span>GET A HAIR EXTENSION.</span>
-		<span>Proceeds benefit local Memorial Hospital. Walk-ins only.</span>
-	</div>
+	<h1>Register</h1>
+	<form class="col s12" id="loginForm" onsubmit="return CreateNewAccount();">
+		<div class="row">
+			<div class="input-field col s12">
+				<input id="email_create" type="email" class="validate" pattern="[a-zA-Z0-9]+@nd.edu">
+				<label for="email_create" data-error="Must be a @nd.edu" data-success="right">Email</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12">
+				<input id="goal" type="tel" class="validate" pattern="[0-9]+">
+				<label for="goal" data-error="Numbers only" data-success="right">Fundraising Goal</label>
+			</div>
+		</div>
+		<div class="row">
+	      <div class="input-field col s12">
+	        <textarea id="description" class="materialize-textarea"></textarea>
+	        <label for="description">Why are you donating?</label>
+	      </div>
+	    </div>
+		<div class="row">
+			<div class="input-field col s12">
+				<input id="password1" type="password" class="validate">
+				<label for="password1">Password</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12">
+				<input id="password2" type="password" class="validate">
+				<label for="password2">Password</label>
+			</div>
+		</div>
+		<button type="submit" class="btn btn-medium white black-text">Create Account</button>
+	</form>
 
 </div>
 
