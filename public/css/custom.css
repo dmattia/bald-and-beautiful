@@ -671,6 +671,15 @@ input:focus {
 	text-align: center;
 }
 
+.contentRow #my_profileContent
+{
+	position: absolute;
+	left: 5%;
+	top: 5%;
+	height: 90%;
+	width: 90%;
+}
+
 .contentRow #registerContent
 {
 	position: absolute;
