@@ -107,12 +107,24 @@
 						dict[userData.uid] = {}
 						dict[userData.uid]["netid"] = netid
 						dict[userData.uid]["goal"] = goal_amount
-						dict[userData.uid]["pictureURL"] =  ""
+						//dict[userData.uid]["pictureURL"] =  ""
 						dict[userData.uid]["description"] = description
 						dict[userData.uid]["raised so far"] = 0
 						dict[userData.uid]["email"] = email_text
-						myFirebaseRef.set(dict);
-						showContent('#login');
+						
+						// Snag their photo from their gmail
+						alert("Login to google to prove ownership of account");
+						myFirebaseRef.authWithOAuthPopup("google", function(error, authData) {
+							if (error) {
+								console.log("Login Failed!", error);
+								myFirebaseRef.push(dict);
+							} else {
+								console.log("Authenticated successfully with payload:", authData);
+								dict[userData.uid]["pictureURL"] = authData.google.profileImageURL
+								myFirebaseRef.push(dict);
+								showContent('#login');
+							}
+						});
 					}
 				});
 			} else {
@@ -129,42 +141,27 @@
 			return false
 		}
 
-		function get_data_for_user(uid) {
-			console.log("Uid:", uid);
-			if(uid) {
-				myFirebaseRef.on('value', function(snapshot) {
-					console.log("Json:", snapshot.val());
-				})
-			} else {
-				console.log("No user is logged in");
-			}
-		}
-
 		function setProfileInfo() {
 			var uid = get_current_user_uid()
 			if(uid) {
 				myFirebaseRef.on('value', function(snapshot) {
-					var userInfo = snapshot.val()[uid]
-					console.log(userInfo)
-					var percent = userInfo["raised so far"] / userInfo["goal"]
-					console.log("percent:", percent);
-					document.getElementById("profileEmail").innerHTML = userInfo["email"]
-					document.getElementById("profileDescription").innerHTML = "Why do I donate? " + userInfo["description"]
-					document.getElementById("profileProgress").innerHTML = "So far I have raised $" + userInfo["raised so far"] + ", with a goal of $" + userInfo["goal"]
-
-					var circle = new ProgressBar.Circle('#circleProgress', {
-					    color: '#FCB03C',
-					    strokeWidth: 3,
-					    fill: '#FFF',
-						duration: 1500,
-						text: {
-							value: Math.round(percent * 100) + "% raised"
-						}
+					snapshot.forEach(function (childSnapshot) {
+						if(childSnapshot.child(uid).exists()) {
+							var userInfo = childSnapshot.val()[uid]
+							console.log(userInfo)
+							var percent = userInfo["raised so far"] / userInfo["goal"]
+							console.log("percent:", percent);
+							document.getElementById("profileEmail").innerHTML = userInfo["email"]
+							document.getElementById("profileDescription").innerHTML = userInfo["description"]
+							document.getElementById("profileProgress").innerHTML = "So far I have raised $" + userInfo["raised so far"] + ", with a goal of $" + userInfo["goal"]
+		
+							$("#circleProgress").css({ 'background': 'url(' + userInfo["pictureURL"] + ') #ffffff repeat-x 50% 50%;' });
+		
+							circle.animate(percent, function() {
+							    //circle.animate(0);
+							})
+						}	
 					});
-					
-					circle.animate(percent, function() {
-					    //circle.animate(0);
-					})
 				});
 			} else {
 				document.getElementById("profileEmail").innerHTML = "No uid found";
@@ -325,12 +322,13 @@
 			<button id="profileEmail" class="waves-effect btn btn-large col s12 white green-text animated fadeInUp z-depth-2 card thick">
 				Email
 			</button>
-			<button id="profileDescription" class="waves-effect btn btn-large col s12 white green-text animated fadeInUp z-depth-2 card thick">
-				Why do I donate?!
-			</button>
 			<button id="profileProgress" class="waves-effect btn btn-large col s12 white green-text animated fadeInUp z-depth-2 card thick">
 				I have raised...
 			</button>
+			<div class="waves-effect col s12 white green-text animated fadeInUp z-depth-2 card thick">
+				<h2 align="center">Why do I donate?</h2>
+				<h4 id="profileDescription">Why do I donate?!</h4>
+			</div>
 		</div>
 	</div>
 
@@ -854,6 +852,17 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
 	<script type="text/javascript" src="js/custom.js"></script>
 	<script type="text/javascript" src="js/progressbar.min.js"></script>
+	<script>
+		var circle = new ProgressBar.Circle('#circleProgress', {
+		    color: '#FCB03C',
+		    strokeWidth: 3,
+		    fill: '#FFF',
+			duration: 1500,
+			step: function(state, bar) {
+        		bar.setText((bar.value() * 100).toFixed(0) + "%");
+    		}
+		});
+	</script>			
 </body>
 
 </html>
