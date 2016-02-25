@@ -1,0 +1,1233 @@
+
+/* To do: resizable chart, links via hash */
+
+html, body {
+    color: #000;
+    font-family: 'ayt_franklin_gothiccondensed';
+	height: 100%;
+	background-color: black;
+	
+	overflow: hidden;
+}
+
+html, body, div, span, header, footer, aside, nav, menu, main, section, article, details, h1, h2, h3, h4, h5, h6, p, ol, ul, li, dl, dt, dd, em, small, big, strong, b, u, i, sub, sup, del, strike, q, blockquote, cite, time, address, code, pre, a, img, center, hr, form, fieldset, legend, label, input, textarea, button, table, caption, tbody, thead, tfoot, tr, th, td, iframe, object, canvas, audio, video, embed {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+img {
+	max-height: 100%;
+}
+
+img .centered {
+	display: block;
+}
+
+input
+{
+	border: 1px solid black;
+    border-radius: 5px;
+	font-size: 75%;
+}
+
+input:focus { 
+    outline: none;
+    border-color: #9ecaed;
+    box-shadow: 0 0 10px #9ecaed;
+}
+
+/* INDEX HTML */
+
+/* Containers */
+
+#htmlContainer {
+	position: absolute;
+	
+	z-index: 1;
+
+	min-height: 100% !important;
+	height: 100%;
+	
+	width: 100%;
+	
+	clear: both;
+	
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+#bodyContainer {
+	position: absolute;
+	
+	min-height: 100% !important;
+	height: 100%;
+	
+	width: 75%;
+	left: 12.5%;
+}
+
+/* Rows */
+
+/* Title Row */
+
+#titleRow {
+	background-color: white;
+	border-radius: 5px;
+	
+	margin-top: 2.5%;
+	
+	height: 15%;
+	width: 100%;
+	clear: both;
+	position: relative;
+	
+	opacity: 1.0;
+	filter: alpha(opacity=100); /* For IE8 and earlier */
+	
+	color: #f7da7c;
+    font-family: 'kabellight';
+    font-weight: bold;
+
+    box-shadow: inset 0 0 15px #000000;
+	
+	-webkit-animation-delay: 0s;
+	animation-delay: 0s;
+	
+	display: none;
+}
+
+@media all and (orientation: portrait)
+{
+	#titleRow
+	{
+		font-size: 7vw;
+	}
+}
+
+@media all and (orientation: landscape)
+{
+	#titleRow
+	{
+		font-size: 7vh;
+	}
+}
+
+#titleRow span
+{
+	position: relative;
+	top: 10%;
+}
+
+#titleRow #titleRowText 
+{
+	position: relative;
+	top: 12.5%;
+	left: 5%;
+
+	height: 100%;
+	width: 70%;
+	float: left;
+}
+
+@media all and (orientation: portrait)
+{
+	#titleRow img
+	{
+		position: relative;
+		left: 2.5%;
+		top: 7.5%;
+		height: auto;
+		width: 25%;
+		float: left;
+		cursor: pointer;
+	}
+}
+
+@media all and (orientation: landscape)
+{
+	#titleRow img
+	{
+		position: relative;
+		left: 2.5%;
+		top: 7.5%;
+		height: 85%;
+		width: auto;
+		float: left;
+		cursor: pointer;
+	}
+}
+
+/* Subtitle Row */
+	
+#subtitleRow {
+	background-color: #71C179;
+	border-radius: 5px;
+	
+	height: 7.5%;
+	width: 100%;
+	clear: both;
+	position: relative;
+	
+	opacity: 1.0;
+	filter: alpha(opacity=100); /* For IE8 and earlier */
+
+    color: #fff;
+	font-family: 'kabellight';
+	font-weight: bold;
+	text-align: center;
+
+	box-shadow: inset 0 0 15px green;
+	text-shadow: 0 0 15px green;
+	
+	-webkit-animation-delay: 0.2s;
+	animation-delay: 0.2s;
+	
+	display: none;
+}
+
+#subtitleRow span
+{
+	position: relative;
+	top: 25%;
+	transform: translateY(-50%);
+}
+
+@media all and (orientation: portrait)
+{
+	#subtitleRow span
+	{
+		font-size: 2.25vw;
+	}
+}
+
+@media all and (orientation: landscape)
+{
+	#subtitleRow span
+	{
+		font-size: 2.25vh;
+	}
+}
+
+/* Menu Row */
+
+#menuRow {
+	border-radius: 5px;
+	
+	height: 7.5%;
+	width: 100%;
+	clear: both;
+	position: relative;
+	
+	opacity: 1.0;
+	filter: alpha(opacity=100); /* For IE8 and earlier */
+	background-color: #f7da7c;
+
+    color: #fff;
+	font-family: 'kabellight';
+	font-weight: bold;
+
+	box-shadow: inset 0 0 15px rgba(204, 160, 11, 1.0);
+	
+	-webkit-animation-delay: 0.4s;
+	animation-delay: 0.4s;
+	
+	display: none;
+}
+
+/* Content Row */
+
+.contentRow {
+	background-color: #71C179;
+	border-radius: 5px;
+	
+	min-height: 50%;
+	height: 50%;
+	max-height: 50%;
+	
+	width: 100%;
+	clear: both;
+	position: relative;
+	z-index: 35;
+	
+	opacity: 1.0;
+	filter: alpha(opacity=100); /* For IE8 and earlier */
+
+    color: #fff;
+    font-size: 150%;
+	font-family: 'kabellight';
+	font-weight: bold;
+	
+	overflow-y: auto;
+	overflow-x: hidden;
+
+	box-shadow: inset 0 0 15px green;
+	text-shadow: 0 0 15px green;
+	
+	-webkit-animation-delay: 0.6s;
+	animation-delay: 0.6s;
+	
+	display: none;
+}	
+
+.contentRow #homeContent 
+{
+	position: absolute;
+	left: 10%;
+	top: 10%;
+	height: 90%;
+	width: 80%;
+}
+
+.contentRow #homeContent img 
+{
+	height: 90%;
+	width: 15%;
+	float: left;
+    
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+.contentRow #homeContent #placeholder
+{
+	position: relative;
+	float: left;
+	padding-left: 2.5%;
+	padding-right: 2.5%;
+	width: 65%;
+}
+
+.contentRow #homeContent span
+{
+	display: inline-block;
+	clear: both;
+	margin-bottom: 2.5%;
+	width: 100%;
+}
+
+.contentRow #aboutContent
+{
+	position: absolute;
+	left: 5%;
+	top: 5%;
+	height: 90%;
+	width: 90%;
+}
+
+.contentRow #aboutContent img
+{
+    margin-left: 12.5%;
+	width: 75%;
+	height: auto;
+    
+    border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+.contentRow #aboutContent span
+{
+	display: inline-block;
+	clear: both;
+	margin-bottom: 2.5%;
+	width: 100%;
+}
+
+@media all and (orientation: portrait)
+{
+    .contentRow #aboutContent
+    {
+        font-size: 2.5vw;
+    }
+}
+
+@media all and (orientation: landscape)
+{
+    .contentRow #aboutContent
+    {
+        font-size: 2.5vh;
+    }
+}
+
+.contentRow #faqContent
+{
+	position: absolute;
+	left: 5%;
+	top: 5%;
+	height: 90%;
+	width: 90%;
+	
+	text-align: justify;
+}
+
+@media all and (orientation: portrait)
+{
+	.contentRow #faqContent
+	{
+		font-size: 2.5vw;
+	}
+}
+
+@media all and (orientation: landscape)
+{
+	.contentRow #faqContent
+	{
+		font-size: 2.5vh;
+	}
+}
+
+.contentRow #faqContent .question
+{
+	position: relative;
+	float: left;
+	clear: both;
+	display: inline-block;
+	
+	font-weight: bold;
+    color: #f7da7c;
+}
+
+.contentRow #faqContent .answer
+{
+	position: relative;
+	float: left;
+	clear: both;
+	display: inline-block;
+	
+	margin: 2%;
+}
+
+.contentRow #reportContent
+{
+	position: absolute;
+	left: 5%;
+	top: 5%;
+	height: 90%;
+	width: 90%;
+}
+
+.contentRow #contactContent
+{
+	position: absolute;
+	left: 5%;
+	top: 5%;
+	height: 90%;
+	width: 90%;
+	
+	text-align: justify; 
+}
+
+@media all and (orientation: portrait)
+{
+	.contentRow #contactContent
+	{
+		font-size: 2.5vw;
+	}
+}
+
+@media all and (orientation: landscape)
+{
+	.contentRow #contactContent
+	{
+		font-size: 2.5vh;
+	}
+}
+
+.contentRow #contactContent table
+{
+    padding: 1%;
+}
+
+.contentRow #contactContent span
+{
+    color: #f7da7c;
+	font-size: 125%;
+}
+
+.contentRow #contactContent .quarter
+{
+    color: #f7da7c;
+    position: relative;
+	width: 25%;
+	float: left;
+	display: block;
+}
+
+.contentRow #contactContent .half
+{
+    color: #f7da7c;
+    position: relative;
+	width: 50%;
+	float: left;
+	display: block;
+}
+
+.contentRow #gradEventContent
+{
+	position: absolute;
+	left: 5%;
+	top: 5%;
+	height: 90%;
+	width: 90%;
+}
+
+@media all and (orientation: portrait)
+{
+	.contentRow #gradEventContent
+	{
+		font-size: 3vw;
+	}
+}
+
+@media all and (orientation: landscape)
+{
+	.contentRow #gradEventContent
+	{
+		font-size: 3vh;
+	}
+}
+
+.contentRow #gradEventContent span
+{
+	display: inline-block;
+	clear: both;
+	margin-bottom: 1%;
+	width: 100%;
+}
+
+.contentRow #sponsorsContent
+{
+	position: absolute;
+	left: 5%;
+	top: 5%;
+	height: 90%;
+	width: 90%;
+	
+	text-align: center; 
+}
+
+.contentRow #sponsorsContent img
+{
+	position: relative;
+	min-height: 33% !important;
+	max-height: 33%;
+	height: 33%;
+	width: auto;
+	
+	border-radius: 5px;
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+.contentRow #sponsorsContent h3
+{
+	color: #f7da7c;
+}
+
+.contentRow #sponsorUsContent
+{
+	position: absolute;
+	left: 5%;
+	top: 5%;
+	height: 90%;
+	width: 90%;
+	
+	text-align: center;
+}
+
+@media all and (orientation: portrait)
+{
+    .contentRow #sponsorUsContent
+    {
+        font-size: 2.5vw;
+    }
+}
+
+@media all and (orientation: landscape)
+{
+    .contentRow #sponsorUsContent
+    {
+        font-size: 2.5vh;
+    }
+}
+
+.contentRow #sponsorUsContent span
+{
+	display: inline-block;
+	clear: both;
+	margin-bottom: 1%;
+}
+
+.contentRow #sponsorUsContent #gold .packageDescription,
+.contentRow #sponsorUsContent #green .packageDescription,
+.contentRow #sponsorUsContent #white .packageDescription
+{
+	position: relative;
+	padding-top: 1%;
+	padding-bottom: 1%;
+	height: 90%;
+	width: 100%;
+}
+
+@media all and (orientation: portrait)
+{
+	.contentRow #sponsorUsContent #gold .packageDescription,
+	.contentRow #sponsorUsContent #green .packageDescription,
+	.contentRow #sponsorUsContent #white .packageDescription
+	{
+		font-size: 2.5vw;
+	}
+}
+
+@media all and (orientation: landscape)
+{
+	.contentRow #sponsorUsContent #gold .packageDescription,
+	.contentRow #sponsorUsContent #green .packageDescription,
+	.contentRow #sponsorUsContent #white .packageDescription
+	{
+		font-size: 2.5vh;
+	}
+}
+
+.contentRow #sponsorUsContent #gold
+{
+	position: relative;
+	left: 20%;
+	width: 60%;
+	
+	background-color: #F5CE45;
+	
+	box-shadow: inset 0 0 15px rgba(204, 160, 11, 1.0);
+	text-shadow: 0 0 15px rgba(204, 160, 11, 1.0);
+	border-radius: 15px;
+	
+	margin-bottom: 1%;
+}
+
+.contentRow #sponsorUsContent #green
+{
+	position: relative;
+	left: 20%;
+	width: 60%;
+	
+	background-color: #71C179;
+	
+	box-shadow: inset 0 0 15px green;
+	text-shadow: 0 0 15px green;
+	border-radius: 15px;
+	
+	margin-bottom: 1%;
+}
+
+.contentRow #sponsorUsContent #white
+{
+	position: relative;
+	left: 20%;
+	width: 60%;
+	
+	background-color: white;
+	color: black;
+	
+	box-shadow: inset 0 0 15px black;
+	text-shadow: 0 0 15px black;
+	border-radius: 15px;
+	
+	margin-bottom: 1%;
+}
+
+.contentRow #rankingsContent
+{
+	position: absolute;
+	left: 5%;
+	top: 5%;
+	height: 90%;
+	width: 90%;
+}
+
+.contentRow #mensContent
+{
+	position: absolute;
+	left: 5%;
+	top: 5%;
+	height: 90%;
+	width: 90%;
+	
+	text-shadow: none;
+	text-align: center;
+}
+
+.contentRow #womensContent
+{
+	position: absolute;
+	left: 5%;
+	top: 5%;
+	height: 90%;
+	width: 90%;
+	
+	text-shadow: none;
+	text-align: center;
+}
+
+.contentRow #registerContent
+{
+	position: absolute;
+	left: 5%;
+	top: 5%;
+	height: 90%;
+	width: 90%;
+}
+
+.contentRow #registerContent h3#popupTrigger
+{
+	color: #f7da7c;
+}
+
+@media all and (orientation: portrait)
+{
+    .contentRow #registerContent
+    {
+        font-size: 2.5vw;
+    }
+}
+
+@media all and (orientation: landscape)
+{
+    .contentRow #registerContent
+    {
+        font-size: 2.5vh;
+    }
+}
+
+.contentRow #registerContent span
+{
+	width: 100%;
+	display: inline-block;
+	clear: both;
+	margin-bottom: 1%;
+}
+
+.contentRow #registerContent #popupSalon
+{
+	position: absolute;
+	left: 25%;
+	z-index: 10000;
+	width: 400px;
+	height: 300px;
+	display: none;
+
+	border-radius: 5px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+
+.contentRow #registerContent .description
+{
+	padding-left: 2.5%;
+	width: 90%;
+	float: left;
+}
+
+.contentRow #registerContent .circle-text 
+{
+    width: 5%;
+	float: left;
+	cursor: pointer;
+}
+
+.contentRow #registerContent .circle-text:after 
+{
+    content: "";
+    display: block;
+    width: 100%;
+    height:0;
+    padding-bottom: 100%;
+    background: #f7da7c; 
+    -moz-border-radius: 50%; 
+    -webkit-border-radius: 50%; 
+    border-radius: 50%;
+}
+
+.contentRow #registerContent .circle-text div 
+{
+    float:left;
+    width:100%;
+    padding-top:50%;
+    line-height:1em;
+    margin-top:-0.5em;
+    text-align:center;
+    color:white;
+}
+
+.contentRow #loginContent
+{
+	position: absolute;
+	left: 5%;
+	top: 5%;
+	height: 90%;
+	width: 90%;
+}
+
+.contentRow #loginContent span
+{
+	width: 100%;
+	display: inline-block;
+	clear: both;
+	margin-bottom: 1%;
+}
+
+.contentRow#campaign
+{
+	background-color: black;
+	background-image: url( "../images/starryNight.jpg" );
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	
+	box-shadow: inset 0 0 15px gray;
+	text-shadow: 0 0 15px white;
+}
+
+.contentRow #campaignContent
+{
+	position: absolute;
+	left: 5%;
+	top: 5%;
+	height: 90%;
+	width: 90%;
+}
+
+@media all and (orientation: portrait)
+{
+    .contentRow #campaignContent
+    {
+        font-size: 2.5vw;
+    }
+}
+
+@media all and (orientation: landscape)
+{
+    .contentRow #campaignContent
+    {
+        font-size: 2.5vh;
+    }
+}
+
+.contentRow #campaignContent span
+{
+	width: 100%;
+	display: inline-block;
+	clear: both;
+	margin-bottom: 1%;
+}
+
+.contentRow #campaignContent #left
+{
+	position: relative;
+	width: 47.5%;
+	float: left;
+	
+	border-radius: 10px;
+	background-color: white;
+	
+	color: black;
+	box-shadow: inset 0 0 15px black;
+	text-shadow: 0 0 2px gray;
+}
+
+.contentRow #campaignContent #right
+{
+	position: relative;
+	left: 5%;
+	width: 47.5%;
+	float: left;
+	
+	border-radius: 10px;
+	background-color: #f7da7c;
+	
+	box-shadow: inset 0 0 15px rgba(204, 160, 11, 1.0);
+	text-shadow: 0 0 15px rgba(204, 160, 11, 1.0);
+}
+
+.contentRow #campaignContent table
+{
+	padding-top: 5%;
+	padding-bottom: 5%;
+	
+	position: relative;
+	left: 5%;
+	width: 90%;
+	float: left;
+}
+
+.contentRow #campaignContent table tr > td
+{
+	padding-top: 1%;
+	padding-bottom: 1%;
+}
+
+/* Footer Row */
+
+#footerRow 
+{
+	background-color: white;
+	border-radius: 5px;
+	
+	height: 10%;
+	width: 100%;
+	clear: both;
+	position: relative;
+	
+	opacity: 1.0;
+	filter: alpha(opacity=100); /* For IE8 and earlier */
+
+    color: black;
+	font-family: 'kabellight';
+	font-weight: bold;
+	text-align: center;
+
+	box-shadow: inset 0 0 15px #000000;
+	
+	-webkit-animation-delay: 0.8s;
+	animation-delay: 0.8s;
+	
+	display: none;
+}
+
+#footerRow #content
+{
+	position: relative;
+	top: 25%;
+}
+
+#footerRow #content a
+{
+	color: black;
+}
+
+#footerRow #content a:link
+{
+	text-decoration: none;
+}
+
+@media all and (orientation: portrait)
+{
+	#footerRow #content
+	{
+		font-size: 2.5vw;
+	}
+}
+
+@media all and (orientation: landscape)
+{
+	#footerRow #content
+	{
+		font-size: 2.5vh;
+	}
+}
+
+#footerNav {
+    font-family: 'kabellight';
+    text-align:center;
+    font-size: 1.5vw;
+}
+
+h1 {
+    color: #FFF;
+    font-family: 'kabellight';
+}
+
+#address {
+    font-family: 'ayt_franklin_gothicBdCn';
+}
+
+.task {
+    font-family: 'ayt_franklin_gothicBdCn';
+}
+
+/* Background Imagery */
+
+@media all and (orientation: landscape)
+{
+	#backgroundContainer { 
+		position: absolute;
+		width: 100%;
+		min-height: 100% !important;
+		height: 100%;
+		
+		z-index: -5;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		
+		background-color: black;
+	}
+}
+
+@media all and (orientation: portrait)
+{
+	#backgroundContainer { 
+		position: absolute;
+		
+		z-index: -5;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		
+		width: 100%;
+		min-height: 100% !important;
+		height: 100%;
+		
+		background-color: black;
+	}
+}
+
+#backgroundContainer img
+{
+	position: relative;
+	float: left;
+	opacity: 0.30;
+	filter: alpha(opacity=30); /* For IE8 and earlier */
+}
+
+#backgroundContainer.hoverGallery img
+{
+	position: relative;
+	float: left;
+	border-radius: 15px;
+	-webkit-transform:scale(0.75); 		/*Webkit: Scale down image to 0.8x original size*/
+	-moz-transform:scale(0.75); 		/*Mozilla scale version*/
+	-o-transform:scale(0.75); 			/*Opera scale version*/
+	-webkit-transition-duration: 0.5s; 	/*Webkit: Animation duration*/
+	-moz-transition-duration: 0.5s; 	/*Mozilla duration version*/
+	-o-transition-duration: 0.5s; 		/*Opera duration version*/
+	opacity: 0.7; 						/*initial opacity of images*/
+	margin: 0; 							/*margin between images*/
+}
+
+#backgroundContainer img.easter
+{
+	min-height: 100%;
+	height: 100%;
+	max-height: 100%;
+	min-width: 100%;
+	width: 100%;
+	max-width: 100%;
+	
+	opacity: 1.0;
+}
+
+@media all and (orientation: landscape)
+{
+	#backgroundContainer img, #backgroundContainer div
+	{
+		min-height: 25%;
+		height: 25%;
+		max-height: 25%;
+		min-width: 20%;
+		width: 20%;
+		max-width: 20%;
+		
+		font-size: 7.5vh;
+	}
+}
+
+@media all and (orientation: portrait)
+{
+	#backgroundContainer img, #backgroundContainer div
+	{
+		min-height: 25%;
+		height: 25%;
+		max-height: 25%;
+		min-width: 33.333%;
+		width: 33.333%;
+		max-width: 33.333%;
+		
+		font-size: 7.5vw;
+	}
+}
+
+#backgroundContainer.hoverGallery img:hover
+{
+	position: relative;
+	-webkit-transform:scale(1.25); 		/*Webkit: Scale up image to 1.2x original size*/
+	-moz-transform:scale(1.25); 		/*Mozilla scale version*/
+	-o-transform:scale(1.25); 			/*Opera scale version*/
+	opacity: 1;
+	z-index: 1000;
+}
+
+#backgroundContainer #homeButton
+{
+	position: relative;
+	float: left;
+	margin: 0;
+
+	-webkit-transform:scale(0.50); 		/*Webkit: Scale up image to 1.2x original size*/
+	-moz-transform:scale(0.50); 		/*Mozilla scale version*/
+	-o-transform:scale(0.50); 			/*Opera scale version*/
+
+	text-align: center;
+	
+	border-radius: 15px;
+	
+	color: white;
+	font-family: 'kabellight';
+	font-weight: bold;
+	
+	background-color: #f7da7c;
+	
+	box-shadow: inset 0 0 15px rgba(204, 160, 11, 1.0);
+	text-shadow: 0 0 15px rgba(204, 160, 11, 1.0);
+	
+	-o-transition:.5s;
+	-ms-transition:.5s;
+	-moz-transition:.5s;
+	-webkit-transition:.5s;
+	transition:.5s;
+	
+	cursor: pointer;
+}
+
+#backgroundContainer span
+{
+	position: relative;
+	top: 25%;
+	transform: translateY(-50%);
+}
+
+#backgroundContainer #homeButton:hover
+{
+	background-color: #F5CE45;
+}
+
+/* MENU CSS */
+
+#sddm
+{	
+	margin: 0;
+	padding: 0;
+	left: 1%;
+	width: 98%;
+	height: 100%;
+	z-index: 30;
+}
+
+#sddm li
+{	
+	margin: 0;
+	padding: 0;
+	width: 14.28%;
+	height: 100%;
+	list-style: none;
+	float: left;
+	font: inherit;
+}
+
+#sddm li a
+{	
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-color: #f7da7c;
+	color: #FFF;
+	text-align: center;
+	text-decoration: none;
+	
+	border-radius: 5px;
+
+	box-shadow: inset 0 0 15px rgba(204, 160, 11, 1.0);
+	text-shadow: 0 0 15px rgba(204, 160, 11, 1.0);
+}
+
+#sddm li a span
+{
+	color: white;
+
+	position: relative;
+	top: 15%;
+	transform: translateY(-50%);
+}
+
+#sddm li a span b
+{
+    color: #f7da7c;
+    text-shadow: none;
+}
+
+@media all and (orientation: portrait)
+{
+	#sddm li a span
+	{
+		font-size: 3vw;
+	}
+}
+
+@media all and (orientation: landscape)
+{
+	#sddm li a span
+	{
+		font-size: 3vh;
+	}
+}
+
+#sddm li a:hover
+{	
+	background: #F5CE45;
+}
+
+#sddm li a:hover span b
+{
+	color: #F5CE45;
+}
+
+#sddm div
+{	
+	position: absolute;
+	/*visibility: hidden;*/
+	margin: 0;
+	padding: 0;
+	background: #EAEBD8;
+	border-radius: 5px;
+
+	box-shadow: inset 0 0 15px rgba(204, 160, 11, 1.0);
+}
+
+@media all and (orientation: portrait)
+{
+	#sddm div
+	{
+		font-size: 2.5vw;
+	}
+}
+
+@media all and (orientation: landscape)
+{
+	#sddm div
+	{
+		font-size: 2.5vh;
+	}
+}
+
+#sddm div a
+{	
+	position: relative;
+	display: block;
+	margin: 0;
+	padding: 10px;
+	height: 100%;
+	width: auto;
+	white-space: nowrap;
+	text-align: left;
+	text-decoration: none;
+	background-color: #f7da7c;
+	color: white;
+}
+
+#sddm div a:hover
+{	
+	background-color: #F5CE45;
+	color: #FFF;
+}

@@ -1,0 +1,209 @@
+body {
+    margin: 0;
+    font-size: 16px;
+    color: #000;
+    line-height: 1.2;
+    height: 100%;
+    font-family: 'ayt_franklin_gothiccondensed';
+    
+}
+
+.container {
+    width:1024px;
+    height: 900px;
+    margin:0 auto;
+    padding:0;
+    background: #95d19b;
+}
+
+#logo {
+    width: 266px;
+    height: 104px;
+    float: left;
+    background: #FFF;
+    padding: 50px 20px 0px 0px;
+}
+
+#title {
+    width:718px;
+    height:74px;
+    padding: 80px 0px 0px 20px;
+    background: #FFF;
+    float: left;
+}
+
+#footer {
+    height: 50px;
+    background:#f7da7c;
+    color: #FFF;
+    font-family: 'kabellight';
+    text-align:center;
+    font-size: 14px;
+    width: 1024px;
+    float: left;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    
+}
+
+.title {
+    color: #f7da7c;
+    font-size: 72px;
+    font-family: 'kabellight';
+    font-weight: bold;
+}
+
+
+#subtitle {
+    width: 638px;
+    height:80px;
+    float: right;
+    padding: 10px 80px 10px 20px;
+}
+
+.subtitle {
+    font-family: 'kabellight';
+    color: #FFF;
+    font-size: 24px;
+    line-height: 1.4;
+    
+}
+
+#menu {
+    width:246px;
+    height: 558px;
+    float: left;
+    padding: 100px 20px 0px 0px;
+}
+
+.nav {
+    float: right;
+    font-size: 28px;
+    color: #FFF;
+    font-family: 'kabellight';
+    text-decoration: none;
+    line-height: 1.6;
+}
+
+.special_nav {
+    float: right;
+    font-size: 28px;
+    color: #FFF;
+    font-family: 'kabellight';
+    text-decoration: none;
+    line-height: 1.6;
+}
+
+a.nav:link {
+    color: #FFF;
+    text-decoration: none; 
+}
+
+a.nav:visited {
+    color: #FFF;
+    text-decoration: none; 
+}
+
+a.nav:active {
+    color: #FFF;
+    text-decoration: none; 
+}
+
+a.nav:hover {
+    color: #DDD;
+    text-decoration: none; 
+}
+
+a.footer_nav:link {
+    color: #FFF;
+    text-decoration: none; 
+}
+
+a.footer_nav:visited {
+    color: #FFF;
+    text-decoration: none; 
+}
+
+a.footer_nav:active {
+    color: #FFF;
+    text-decoration: none; 
+}
+
+a.footer_nav:hover {
+    color: #DDD;
+    text-decoration: none; 
+}
+
+h1 {
+    font-size: 18px;
+    color: #FFF;
+    font-family: 'kabellight';
+    padding-bottom: 10px;
+}
+
+#content {
+    width:600px;
+    height:618px;
+    float: left;
+    padding: 0px 0px 0px 40px;
+}
+
+#contacts {
+    width:700px;
+    font-size: 14px;
+}
+
+#contacts td.names {
+    font-family: 'ayt_franklin_gothicBdCn';
+}
+
+#contacts tr.department {
+    height:40px;
+    vertical-align:bottom;
+}
+
+#contacts td {
+    width:200px;
+}
+
+#address {
+    font-family: 'ayt_franklin_gothicBdCn';
+}
+
+.task {
+    font-family: 'ayt_franklin_gothicBdCn';
+    font-size: 18px;
+}
+
+a.register:link {
+    padding: 10px 0px 10px 0px;
+    font-family: 'ayt_franklin_gothicBdCn';
+    color: #DDD;
+    text-decoration: none; 
+    text-size:18px;
+}
+a.register:active {
+    padding: 10px 0px 10px 0px;
+    font-family: 'ayt_franklin_gothicBdCn';
+    color: #DDD;
+    text-decoration: none; 
+    text-size:18px;
+}
+a.register:hover {
+    padding: 10px 0px 10px 0px;
+    font-family: 'ayt_franklin_gothicBdCn';
+    color: #DDD;
+    text-decoration: none; 
+    text-size:18px;
+}
+a.register:visited {
+    padding: 10px 0px 10px 0px;
+    font-family: 'ayt_franklin_gothicBdCn';
+    color: #DDD;
+    text-decoration: none; 
+    text-size:18px;
+}
+
+p {
+    font-size: 14px;
+}

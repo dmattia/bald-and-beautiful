@@ -1,0 +1,261 @@
+html, body {
+    margin-bottom: 2.5%;
+    font-size: 16px;
+    color: #000;
+    line-height: 1.2;
+    height: 97.5%;
+    font-family: 'ayt_franklin_gothiccondensed';
+    background: #f7da7c;
+}
+
+.container {
+    width: 1000px;
+    height: 165%;
+    margin: 0 auto;
+    background: #95d19b;
+}
+
+/* INDEX HTML */
+
+#logo {
+    width: 22.5%;
+    height: 10.0%;
+    float: left;
+    background: #FFF;
+    padding-top: 2.5%;
+    padding-bottom: 2.5%;
+    border:none;
+}
+
+#title {
+    width: 77.5%;
+    height: 10%;
+    padding-top: 5%;
+    background: #FFF;
+    float: right;
+}
+
+.title {
+    color: #f7da7c;
+    font-size: 72px;
+    font-family: 'kabellight';
+    font-weight: bold;
+    padding-left: 0%;
+}
+
+#subtitle {
+    width: 70%;
+    height: 10%;
+    float: right;
+    padding-top: 2.5%;
+    padding-right: 3.75%;
+    padding-left: 3.75%;
+}
+
+.subtitle {
+    font-family: 'kabellight';
+    color: #FFF;
+    font-size: 24px;
+    line-height: 1.4;
+}
+
+#content {
+    width: 68.5%;
+    height: 60%;
+    float: left;
+    padding-left: 3.75%;
+    padding-right: 1.25%;
+}
+
+#menu {
+    width: 22.5%;
+    height: 65%;
+    float: left;
+    padding-top: 10%;
+}
+
+.nav {
+    float: right;
+    font-size: 28px;
+    color: #FFF;
+    font-family: 'kabellight';
+    text-decoration: none;
+    line-height: 1.4;
+}
+
+.nav_bubbles {
+    float: right;
+    font-size: 28px;
+    color: #009933;
+    font-family: 'kabellight';
+    text-decoration: none;
+    line-height: 1.4;
+}
+
+#footer {
+    width: 100%;
+    height: 10%; 
+    background:#FFF;
+    color: #000000;
+    font-family: 'kabellight';
+    text-align:center;
+    font-size: 14px;
+    float: left;
+    padding: 0px 0px 0px 0px;
+}
+
+a.footer_nav:link {
+    color: #000000;
+    text-decoration: none; 
+}
+
+a.footer_nav:visited {
+    color: #000000;
+    text-decoration: none; 
+}
+
+a.footer_nav:active {
+    color: #000000;
+    text-decoration: none; 
+}
+
+a.footer_nav:hover {
+    color: #009933;
+    text-decoration: none; 
+}
+
+a.baseball_don:link {
+    color: #FFFFFF;
+    text-decoration: none; 
+}
+
+a.baseball_don:visited {
+    color: #FFFFFF;
+    text-decoration: none; 
+}
+
+a.baseball_don:active {
+    color: #FFFFFF;
+    text-decoration: none; 
+}
+
+a.baseball_don:hover {
+    color: #1E90FF;
+    text-decoration: none; 
+}
+
+h1 {
+    font-size: 18px;
+    color: #FFF;
+    font-family: 'kabellight';
+    padding-bottom: 0%;
+}
+
+
+
+
+#contacts {
+    width:700px;
+    font-size: 16px;
+}
+
+#contacts td.names {
+    font-family: 'ayt_franklin_gothicBdCn';
+}
+
+#contacts tr.department {
+    height:40px;
+    vertical-align:bottom;
+}
+
+#contacts td {
+    width:200px;
+}
+
+#address {
+    font-family: 'ayt_franklin_gothicBdCn';
+}
+
+.task {
+    font-family: 'ayt_franklin_gothicBdCn';
+    font-size: 18px;
+}
+
+a.extensions{
+   padding: 10px 0px 10px 0px;
+    font-family: 'ayt_franklin_gothicBdCn';
+    color: #FFFFFF;
+    text-decoration: none; 
+    text-size:18px;
+}
+
+a.register:link {
+    padding: 10px 0px 10px 0px;
+    font-family: 'ayt_franklin_gothicBdCn';
+    color: #FFFFFF;
+    text-decoration: none; 
+    text-size:18px;
+}
+a.register:active {
+    padding: 10px 0px 10px 0px;
+    font-family: 'ayt_franklin_gothicBdCn';
+    color: #FFFFFF;
+    text-decoration: none; 
+    text-size:18px;
+}
+a.register:hover {
+    padding: 10px 0px 10px 0px;
+    font-family: 'ayt_franklin_gothicBdCn';
+    color: #FFFFFF;
+    text-decoration: none; 
+    text-size:18px;
+}
+a.register:visited {
+    padding: 10px 0px 10px 0px;
+    font-family: 'ayt_franklin_gothicBdCn';
+    color: #FFFFFF;
+    text-decoration: none; 
+    text-size:18px;
+}
+
+p {
+    font-size: 16px;
+}
+
+
+
+
+
+
+
+ul.cssMenu, ul.cssMenu ul
+{
+	list-style:none;
+	margin:0; padding:0;
+	position: relative;
+}
+
+
+ul.cssMenu ul 						
+{ 
+        display:none; /*initially menu item is hidden*/
+        position: absolute; /*absolute positioning is important for menu to float*/
+}
+
+
+/* Hover effect for menu*/
+ul.cssMenu li:hover > ul 			
+{ 
+	display:block;
+}
+
+
+
+
+
+
+
+
+
+
+
