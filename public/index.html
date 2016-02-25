@@ -146,9 +146,25 @@
 				myFirebaseRef.on('value', function(snapshot) {
 					var userInfo = snapshot.val()[uid]
 					console.log(userInfo)
+					var percent = userInfo["raised so far"] / userInfo["goal"]
+					console.log("percent:", percent);
 					document.getElementById("profileEmail").innerHTML = userInfo["email"]
 					document.getElementById("profileDescription").innerHTML = "Why do I donate? " + userInfo["description"]
 					document.getElementById("profileProgress").innerHTML = "So far I have raised $" + userInfo["raised so far"] + ", with a goal of $" + userInfo["goal"]
+
+					var circle = new ProgressBar.Circle('#circleProgress', {
+					    color: '#FCB03C',
+					    strokeWidth: 3,
+					    fill: '#FFF',
+						duration: 1500,
+						text: {
+							value: Math.round(percent * 100) + "% raised"
+						}
+					});
+					
+					circle.animate(percent, function() {
+					    //circle.animate(0);
+					})
 				});
 			} else {
 				document.getElementById("profileEmail").innerHTML = "No uid found";
@@ -303,8 +319,9 @@
 	<div id="my_profile" class="animated contentRow">
 		<div id="my_profileContent" class="row">
 			<div class="col s12 card white z-depth-4 animated fadeInUp">
-				<h1 align="center" style="padding-top: 20px; padding-bottom: 20px;" class="black-text thick">Your Profile</h1>
+				<h1 align="center" style="padding-top: 20px; padding-bottom: 20px; text-shadow:none;" class="black-text thick">Your Profile</h1>
 			</div>
+			<div id="circleProgress" style="text-shadow:none;" class="col s2 offset-s5"></div>
 			<button id="profileEmail" class="waves-effect btn btn-large col s12 white green-text animated fadeInUp z-depth-2 card thick">
 				Email
 			</button>
@@ -835,9 +852,8 @@
 	
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
-	<script type="text/javascript" src="js/groundwork.all.js"></script>
 	<script type="text/javascript" src="js/custom.js"></script>
-	
+	<script type="text/javascript" src="js/progressbar.min.js"></script>
 </body>
 
 </html>
