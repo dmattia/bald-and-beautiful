@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+	
+    <!-- Modernizr -->
+    <script src="js/libs/modernizr-2.6.2.min.js"></script>
+
+	<!-- Material Design -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+	<style>
+	/* label color */
+   .input-field label {
+     color: #FFF;
+   }
+	/* label focus color */
+   .input-field input[type=email]:focus + label {
+     color: #FFF;
+   }
+   /* label underline focus color */
+   .input-field input[type=email]:focus {
+     border-bottom: 1px solid #FFF;
+     box-shadow: 0 1px 0 0 #FFF;
+   }
+   .input-field input[type=password]:focus + label {
+     color: #FFF;
+   }
+   /* label underline focus color */
+   .input-field input[type=password]:focus {
+     border-bottom: 1px solid #FFF;
+     box-shadow: 0 1px 0 0 #FFF;
+   }
+	</style>
+
+	<!-- Firebase -->
+	<script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
+	<script>
+		var myFirebaseRef = new Firebase("https://bald-and-beautiful.firebaseio.com/");
+		myFirebaseRef.set({
+			"dmattia": {
+				"goal": 50,
+				"pictureURL": "profile_pics/dmattia",
+				"description": "I am a junior computer science major hoping to raise some money",
+				"money raised": 20
+			}
+		});
+
+		function AttemptToLogin() {
+			myFirebaseRef.authWithPassword({
+				email: document.getElementById("email").value,
+				password: document.getElementById("password").value
+			}, function(error, authData) {
+				if (error) {
+					console.log("Login Failed!", error);
+					alert("Could not log in, invalid credentials");
+				} else {
+					alert("Successful login");
+					console.log("Authenticated successfully with payload:", authData);
+				}
+			});
+			return false
+		}
+	</script>
+	
+    <!-- jQuery -->
+    <script type="text/javascript" src="js/libs/jquery-1.10.2.min.js"></script>
+	
+	<!-- Animations -->
+	<link href="css/animate.css" rel="stylesheet" type="text/css" />
+	
+	<!-- Custom styling -->
+	<link href="css/custom.css" rel="stylesheet" type="text/css" />
+	<link href="fonts/Kabel/stylesheet-kabel.css" rel="stylesheet" type="text/css" />
+	<link href="fonts/Franklin/stylesheet-franklin.css" rel="stylesheet" type="text/css" />
+	
+	<script>
+	if(/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent))
+	{
+		if(document.URL !="http://www3.nd.edu/~tbab/mobile/")
+		{
+			window.location ="http://www3.nd.edu/~tbab/mobile/";
+		}
+	}
+	</script>
+
+	<!-- Rankings -->
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script type="text/javascript" src="js/customBefore.js"></script>
+	
+	<script type="text/javascript">
+		google.load("visualization", "1", { 'packages' : ["corechart"] } );
+		google.setOnLoadCallback(drawVisualizationShave);
+		google.setOnLoadCallback(drawVisualizationDonation);
+	</script>
+	
+	<script type="text/javascript">
+		generateMensRankings();
+		generateWomensRankings();
+	</script>
+	
+	<title>The Bald & The Beautiful</title>
+</head>
+
+<body>
+
+	<div id="fb-root"></div>
+	<script type="text/javascript">
+	(function(d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) return;
+		js = d.createElement(s); js.id = id;
+		js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+	</script>
+
+	<div id="htmlContainer">
+
+	<div id="backgroundContainer">
+		<img src="images/gallery/1.jpg" id="img1"/>
+		<img src="images/gallery/2.jpg" id="img2"/>
+		<img src="images/gallery/3.jpg" id="img3"/>
+		<img src="images/gallery/4.jpg" id="img4"/>
+		<img src="images/gallery/5.jpg" id="img5"/>
+		<img src="images/gallery/6.jpg" id="img6"/>
+		<img src="images/gallery/7.jpg" id="img7"/>
+		<img src="images/gallery/8.jpg" id="img8"/>
+		<img src="images/gallery/9.jpg" id="img9"/>
+		<img src="images/gallery/10.jpg" id="img10"/>
+		<img src="images/gallery/11.jpg" id="img11"/>
+		<img src="images/gallery/12.jpg" id="img12"/>
+		<img src="images/gallery/13.jpg" id="img13"/>
+		<img src="images/gallery/14.jpg" id="img14"/>
+		<img src="images/gallery/15.jpg" id="img15"/>
+		<img src="images/gallery/16.jpg" id="img16"/>
+		<img src="images/gallery/17.jpg" id="img17"/>
+		<img src="images/gallery/18.jpg" id="img18"/>
+		<img src="images/gallery/19.jpg" id="img19"/>
+		<img src="images/gallery/20.jpg" id="img20"/>
+		
+		<img src="images/gallery/hidden.jpg" id="cullen" class="easter"/>
+	</div>
+	
+	<div id="bodyContainer" class="animated">
+	
+	<div class="animated" id="titleRow">
+		
+		<img src="images/logo.png" onclick="showContent('#home')"/>
+					
+		<div onclick="showContent('#home')" id="titleRowText">
+			<span>The Bald & The Beautiful</span>
+		</div>
+				
+	</div>
+		
+	<div class="animated" id="subtitleRow">
+		<span>The Bald & The Beautiful is the largest student-run philanthropy event at Notre Dame. Join us in our fight to raise funds and awareness for cancer research.</span> 
+        <br> <br>
+	</div>
+	
+	<div class="animated" id="menuRow">
+
+		<ul id="sddm">
+			<li>
+				<a href="#about" onclick="showContent('#about')" id="aboutButton"><span>About &#10549;</span></a>
+				<div id="mAbout">
+					<a href="#faq" onclick="showContent('#faq')">Frequently Asked Questions</a>
+					<a href="#report" onclick="showContent('#report')">Annual Report</a>
+					<a href="#gallery" onclick="showContent('#gallery')">Photo Gallery</a>
+					<a href="#contact" onclick="showContent('#contact')">Contact Us</a>
+				</div>
+			</li>
+			<li>
+				<a href="#events" onclick="showContent('#home')" id="eventsButton"><span>Events &#10549;</span></a>	
+				<div id="mEvents">
+					<a href="#gradEvent" onclick="showContent('#gradEvent')">Graduate Students</a>
+				</div>
+			</li>
+			<li>
+				<a href="#sponsors" onclick="showContent('#sponsors')" id="sponsorsButton"><span>Sponsors &#10549;</span></a>
+				<div id="mSponsors">
+					<a href="#sponsorUs" onclick="showContent('#sponsorUs')">Become a Sponsor</a>
+				</div>
+			</li>
+			<li>
+				<a href="#rankings" onclick="showContent('#rankings')" id="rankingsButton"><span>Rankings &#10549;</span></a>	
+				<div id="mRankings">
+					<a href="#womens" onclick="showContent('#womens')">Women's Dorms</a>
+					<a href="#mens" onclick="showContent('#mens')">Men's Dorms</a>
+				</div>						
+			</li>
+			<li>
+				<a href="#register" onclick="showContent('#register')" id="registerButton"><span><b>&#10549;</b>Register<b>&#10549;</b></span></a>
+			</li>
+			<li>
+				<a href="#login" onclick="showContent('#login')" id="loginButton"><span><b>&#10549;</b>Login<b>&#10549;</b></span></a>
+			</li>
+			<li>
+				<a href="https://shop.nd.edu/C21688_ustores/web/store_cat.jsp?STOREID=8&CATID=537&SINGLESTORE=true" id="donateButton" target="_blank"><span>Donate &#10549;</span></a>
+				<div id="mDonate">
+					
+				</div>
+			</li>
+		</ul>
+		<div style="clear:both"></div>
+			
+	</div>
+		
+	<div id="home" class="animated contentRow">
+	
+		<div id="homeContent">
+
+			<img src="images/female_shavee.png" />
+			<div id="placeholder" style="text-align: center">
+				
+				<span>The Bald & The Beautiful Week!</span>
+				<span>WEDNESDAY, 4/13: 4pm to 9pm</span>
+				<span>THURSDAY, 4/14: 4pm to 9pm</span>
+				<span>FRIDAY, 4/15: 4pm to 8pm</span>
+				<span>Located in the LaFortune Student Center Dooley and Sorin Rooms</span>
+				
+				<div class="fb-like" data-href="https://www.facebook.com/NDTBAB" data-width="50" data-layout="standard" data-action="like" data-show-faces="true" data-share="true"></div>
+			
+				<br>
+			
+				<a href="https://twitter.com/TBAB_ND" class="twitter-follow-button" data-show-count="true">Follow @TBAB_ND</a>
+				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+			</div>
+			<!-- iframe src="https://www.google.com/calendar/embed?mode=WEEK&height=600&wkst=1&bgcolor=%23FFFFFF&src=nlarosa%40nd.edu&color=%232952A3&dates=20160405/20160411&ctz=America%2FNew_York" width="70%" height="90%" frameborder="0" scrolling="no"></iframe -->
+			<img src="images/female_pantene.png" />
+			
+		</div>
+
+	</div>
+
+	<div id="about" class="animated contentRow">
+
+		<div id="aboutContent">
+	
+			<img src="images/duncan_marx.png" class="image" align="center"/>
+            <br><br>
+			<span>In 2009, a small group of dedicated ND students held our first The Bald & the Beautiful (TBAB) event. That year, 140 students shaved their head and raised $26,500. Since then, TBAB's presence in the ND community has grown exponentially. TBAB now has over 40 student volunteers, 1500 participants, and has raised more than $195,000 benefiting the St. Baldrick's Foundation and Memorial Hospital, and given over 400 hair donations to Pantene Beautiful Lengths. Help us achieve our goal in raising $300,000 in just six years to help these beautiful children and their families!</span>
+			<span>Although TBAB is now a student club on campus with events throughout the year, our main event is in April in the days preceding the annual Blue and Gold football game. Students, faculty, staff, alumni, and community members get involved through shaving their heads, donating 8-inches of their hair, and purchasing colored hair extensions.</span>
+			<span>By the Numbers</span>
+			<table>
+				<tr>
+					<td>1,500+</td>
+					<td> </td>
+					<td>-- Participants from the Notre Dame and South Bend community</td>
+				</tr>
+				<tr>
+					<td>$40,500+</td>
+					<td> </td>
+					<td>-- Donations to St. Baldrick’s Foundation and Memorial Hospital in 2013</td>
+				<tr>
+				</tr>
+					<td>400</td>
+					<td> </td>
+					<td>-- Hair donations to Pantene Beautiful Lengths</td>
+				</tr>
+				<tr>
+					<td>$300,000</td>
+					<td> </td>
+					<td>-- Target cumulative fundraising over first six years</td>
+				</tr>
+			</table>
+			<br>
+			
+			<span>Thank you for you interest in learning more about The Bald & The Beautiful. Together, we’ll make a difference in the life of cancer patients.  Feel free to contact us at tbab@nd.edu with any questions or concerns.</span>
+	<span>For more information, please visit the following websites: <a href="http://www.stbaldricks.org/" target="_blank">St. Baldrick's Foundation</a> -- <a href="http://pantene.com/en-us/experience-main-section2/beautiful-lengths" target="_blank">Pantene Beautiful Lengths</a> -- <a href="http://www.qualityoflife.org/childrenshospital/" target="_blank">Memorial Children's Hospital of South Bend</a> </span>
+	
+	<span><a href="docs/constitution.pdf" target="_blank">TBAB Club Constitution</a></span>
+	
+	<!-- St Baldricks, Pantene Beautiful Lengths, Memorial Children's of South Bend-->
+
+</div>
+
+</div>
+
+<div id="faq" class="animated contentRow">
+
+<div id="faqContent">
+
+	<div class="question">What happens during the event?</div>
+	<div class="answer">TBAB is a 3-day event, held annually in the Sorin and Dooley rooms of the LaFortune Student Center. Over the course of these days, supporters shave their heads in solidarity with cancer patients, donate 8-inches of hair to be donated to the Pantene Beautiful Lengths program, and/or receive multi-colored hair extensions in support of those inflicted with various forms of cancer.</div>
+
+	<div class="question">Do I need to Pre-Register for the event?</div>
+	<div class="answer">While we encourage participants to Pre-Register for head shavings and hair donations in the days and weeks leading up to the event, walk-ups are always welcome. TBAB members are always on hand to get you registered and accept donations throughout the event. </div>
+
+	<div class="question">Where do the donations go?</div>
+	<div class="answer">Donations given to TBAB are split between the St. Baldrick’s Foundation and Memorial Hospital in South Bend. St. Baldrick’s is a national organization that helps fund pediatric cancer research, in addition to supporting the children inflicted and their families. Donations sent to Memorial Hospital are reserved for use in their Pediatric Cancer wing, and will ultimately be used for the improvement of these facilities.</div>
+
+	<div class="question">Can I monitor how much has been donated in my name?</div>
+	<div class="answer">Yes! If you would like to know donations made to your name, email cdevey@nd.edu.</div>
+
+	<div class="question">How can I get involved?</div>
+	<div class="answer">For Students, it’s as easy as joining our club! We host meetings every Sunday at 5PM in the Notre Dame of LaFortune. You can also get involved by volunteering at the event. If you’re part of a dorm, team or club, work with us to get your whole group involved and become an official partner!</div>
+	<div class="answer">For Alumni, you can help us reach out to your fellow alumni around the country to let them know what TBAB is doing to find a cure. You can also host a TBAB event in your own city!</div>
+	<div class="answer">For Stylists, you can give an hour or a few hours of your time at our three-day event helping to shave heads, cut hair for wig donations, or apply hair extensions. Please contact us at mgrojean@nd.edu to sign-up for a time.</div>
+	<div class="answer">For all other supporters, you can either visit our donation page to become a sponsor, or email us at tbab@nd.edu and we can work together to get you involved.</div>
+
+	<div class="question">What is the minimum fundraising required to shave my head?</div>
+	<div class="answer">The minimum donation required is $10, or $20 if you would like a TBAB t-shirt. Additional fundraising is highly encouraged!</div>
+
+	<div class="question">How long must my hair be for donation?</div>
+	<div class="answer">Hair donations must be at least 8-inches in length.</div>
+
+	<div class="question">Are my donations Tax Deductible?</div>
+	<div class="answer">Yes, donations to Notre Dame Social Service clubs are eligible tax deductions. If you need supporting documentation, please contact us at tbab@nd.edu.</div>
+	
+</div>
+
+</div>
+
+<div id="report" class="animated contentRow">
+
+<div id="reportContent">
+
+				<embed type="application/pdf" src="./docs/Newsletter3.pdf" width="100%" height="100%">
+
+				<embed type="application/pdf" src="./docs/Newsletter2.pdf" width="100%" height="100%">
+
+	<embed type="application/pdf" src="./docs/Newsletter1.pdf" width="100%" height="100%">
+
+</div>
+
+</div>
+
+<div id="contact" class="animated contentRow">
+
+<div id="contactContent">
+
+	<div class="quarter">Please send checks to:</div>
+
+	<div class="half">
+		The Bald & The Beautiful <br> 
+		315 LaFortune Student Center <br>
+		Notre Dame, IN 46556 <br>
+	</div>
+	
+	<table cellpadding="10%" width="75%" align="center">
+	<tr>
+		<td><span>Sponsorship Information</span></td>
+		<td><div class="placeHolder"></div></td>
+		<td><span>Stylist/Volunteer Information</span></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>Michael Foley, mfoley7@nd.edu</td>
+		<td></td>
+		<td>Meghan Grojean, mgrojean@nd.edu</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><span>Event Information</span></td>
+		<td></td>
+		<td><span>Shavee Information</span></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>Lindsey Paris, lparis@nd.edu</td>
+		<td></td>
+		<td>Jane Pangburn, jpangbur@nd.edu</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><span>Media Inquiries</span></td>
+		<td></td>
+		<td><span>Hair Extension Information<span></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>Sean O'Rourke, sorourk1@nd.edu</td>
+		<td></td>
+		<td>Meghan Grojean, mgrojean@nd.edu</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><span>Hair Donations</span></td>
+		<td></td>
+		<td><span>Donation Inquiries</span></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>Meghan Grojean, mgrojean@nd.edu</td>
+		<td></td>
+		<td>Cate Devey, cdevey@nd.edu</td>
+		<td></td>
+	</tr>
+	</table>
+	
+	<div>
+		Please feel free to contact any of us with questions, concerns, or information.
+		We're happy to assist you in any way.
+	</div>
+	
+</div>
+
+</div>
+
+<div id="gradEvent" class="animated contentRow">
+
+<div id="gradEventContent">
+
+	<span>
+		Join the Graduate School community April 6th, from 6-9pm at Legends for The Bald & The Beautiful's Annual Graduate School Event. 
+		Food will be provided and attendees will have the opportunity to donate hair, receive hair extensions and shave their head in 
+		support of the St. Baldrick's Foundation and Memorial Children's Hospital.
+	</span>
+
+	<br> <br>
+	
+	<span>
+		No registration is required for the Graduate School Event. Walk-ins are welcome!
+	</span>
+
+</div>
+
+</div>
+
+<div id="sponsors" class="animated contentRow">
+
+<div id="sponsorsContent">
+
+	<div class="subtitle" style="text-align:center; padding: 0%;">
+		<span>Special thank you to our event sponsors. </br> Without your commitment and generosity, our event would not be possible!</span>
+	</div>
+
+	<br>
+	
+	
+	
+	<br>
+		
+	
+
+	<br>
+	
+	
+	
+	<br>
+
+	
+	
+	<br>
+
+	
+	
+	<br>
+		
+	
+	
+	<br>
+
+	
+	
+	<br>
+
+	
+	
+	<br>
+
+	
+	
+	<br>
+
+	
+	
+	<br>
+
+	
+	
+	<br>
+
+	
+	
+	<br>
+
+</div>
+
+</div>
+
+<div id="sponsorUs" class="animated contentRow">
+
+<div id="sponsorUsContent">
+
+	<span>Becoming an official sponsor is both an effective and charitable option for increasing awareness of your company. </span>
+	<span>Email us at cdevey@nd.edu to turn your donation into a sponsorship. </span>
+	<span>Donation of merchandise of equivalent monetary value will qualify you for a sponsorship: </span> 
+
+	<span><a href="docs/sponsor.pdf">Corporate Sponsorship Packet</a></span>
+	
+	<div id="gold">
+		<div class="packageDescription">
+			GOLD LEVEL - $750 <br>
+			Table space for your company at our event <br>
+			Company name on event website and social media <br>
+			Company name displayed at event <br>
+			Prime position of logo on event t-shirt and promotional posters <br>
+			Company logo in event advertisement in The Observer
+		</div>
+	</div>
+	
+	<div id="green">
+		<div class="packageDescription">
+			GREEN LEVEL - $250 <br>
+			Company name on event website and social media <br>
+			Company name displayed at event <br>
+			Logo on event t-shirt and promotional posters <br>
+			Company logo in event advertisement in The Observer
+		</div>
+	</div>
+	
+	<div id="white">
+		<div class="packageDescription">
+			WHITE LEVEL - $250 <br>
+			Company name on event website and social media <br>
+			Company name displayed at event <br>
+			Logo on event promotional posters
+		</div>
+	</div>
+	
+</div>
+
+</div>
+
+<div id="rankings" class="animated contentRow">
+
+<div id="rankingsContent">
+	Over the first years of The Bald & The Beautiful event participation among residence halls has varied greatly. 
+	This year, we challenge more dorms to get involved. The hall that gets the most guys to shave their head will receive funds to get food for the dorm. 
+	If you would like to schedule a time slot for your dorm to shave together, email Jane at jpangbur@nd.edu. 
+	Track your dorm standings (beginning March 1st) by visiting the <a href="#mens" onclick="showContent('#mens')">Men's Rankings</a> page. 
+	
+	<br><br>
+
+	Ladies who pre-register to donate eight or more inches of hair through Pantene Beautiful Lengths will be entered into 
+	a raffle for a basket of hair products. Also, Notre Dame's own University Hair Stylists (located in the LaFortune Basement) 
+	will be offering a discount to participants who would like their new hairdo styled.
+	Track your dorm standings (beginning March 1st) by visiting the <a href="#womens" onclick="showContent('#womens')">Women's Rankings</a> page.
+</div>
+
+</div>
+
+<div id="mens" class="animated contentRow">
+
+<div id="mensContent">
+
+	<div id="visualizationShave" style="width: 100%; height: 100%;"></div>
+
+</div>
+
+</div>
+
+<div id="womens" class="animated contentRow">
+
+<div id="womensContent">
+
+	<div id="visualizationDonation" style="width: 100%; height: 100%;"></div>
+
+</div>
+
+</div>
+
+<div id="register" class="animated contentRow">
+
+<div id="registerContent">
+
+	<span>Join the fight against cancer by registering with The Bald & The Beautiful in 1 of 3 ways:</span>
+	<img src="images/salon.JPG" id="popupSalon" />
+	
+	<br> <br>
+	
+	<div class="circle-text" onclick="window.open(                      )"><div>1.</div></div>
+	
+	<div class="description">
+		<span style="cursor: pointer" onclick="window.open('https://docs.google.com/forms/d/1VJXa88x_12qpGT3v4cn1YUQa3LlVGUHGO71uHcwig1U/viewform', 'width=400, height=200')"><u>DONATE 8 OR MORE INCHES OF HAIR.</u></span> 
+		<span>Pantene Beautiful Lengths will donate healthy hair to make wigs for cancer patients.
+		Bleached, permanently colored, or chemically treated hair cannot be accepted.
+		</span>
+		<h3 id="popupTrigger">All those who pre-register will be entered into a raffle for <u>this</u> bag of hair products and gift card to Salon Rouge! Valued at $120!</h3>
+		<br>
+	</div>
+	
+	<br> <br> <br> <br>
+	
+	<div class="circle-text" onclick="window.open(                         )"><div>2.</div></div>
+	
+	<div class="description">
+		<span style="cursor: pointer" onclick="window.open('https://docs.google.com/forms/d/1bVyvDGPRbrA88wWgbkM4YJPxKDazev1m8tDr3xJwxho/viewform', 'width=400, height=200')"><u>                                          SHAVE YOUR HEAD.</u></span>
+		<span>Proceeds benefit St. Baldrick's Foundation.</span>
+	</div>
+	
+	<br> <br> <br> <br>
+	
+	<div class="circle-text" onclick="window.open(                              )"><div>3.</div></div>
+	
+	<div class="description">
+		<span>GET A HAIR EXTENSION.</span>
+		<span>Proceeds benefit local Memorial Hospital. Walk-ins only.</span>
+	</div>
+
+</div>
+
+</div>
+
+	<div id="login" class="animated contentRow">
+	
+	<div id="loginContent">
+		<div class="row">
+			<form class="col s12" id="loginForm" onsubmit="return AttemptToLogin();">
+				<div class="row">
+					<div class="input-field col s12">
+						<input id="email" type="email" class="validate" pattern="[a-zA-Z0-9]+@nd.edu">
+						<label for="email" data-error="Invalid email" data-success="right">Email</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+						<input id="password" type="password" class="validate">
+						<label for="password">Password</label>
+					</div>
+				</div>
+				<button type="submit" class="btn btn-medium white black-text">Log in</button>
+			</form>
+		</div>
+	</div>
+			
+	</div>
+	
+	<div id="campaign" class="animated contentRow">
+
+		<div id="campaignContent">
+		
+			<span>
+				This year as part of our event, we would like to recognize all those in the Notre Dame family who now sit in the heavens due to cancer and all those currently fighting cancer. 
+				On the day of the event, we will display a mural of all the people that the ND community would like to honor and remember. 
+				Your roommate, your friend, a parent, a friend’s child, not just ND grads, but anyone that our Notre Dame family is connected to.
+			</span>
+			<span>
+				Please complete the following form to submit a photo and description for our mural. We appreciate your support!
+			</span>
+			
+			<form enctype="multipart/form-data" action="./server/upload.php" id="uploadForm" method="post">
+		
+			<div id="left">
+			
+				<table>
+				<col width="50%">
+					<tr>
+						<td>Cancer Patient Name:</td>
+						<td><input type="text" pattern="[A-Za-z ]+" name="cancerPatientName" style="width: 100%" required></td>
+					</tr>
+					<tr>
+						<td>Cancer Patient Photo:</td>
+						<td><input type="file" name="cancerPatientPic" accept="image/*" style="width: 100%" required></td>
+					</tr>
+					<tr>
+						<td>Cancer Patient Status:</td>
+						<td>
+							<input type="radio" name="cancerPatient" value="heavens" required>Proudly in Thy Heavens <br> 
+							<input type="radio" name="cancerPatient" value="fighting">Fighting Irish Fights
+						</td>
+					</tr>
+				</table>
+				
+			</div>
+			
+			<div id="right">
+
+				<table>
+				<col width="50%">
+					<tr>
+						<td>Donor Name:</td>
+						<td><input type="text" pattern="[A-Za-z ]+" name="donorName" style="width: 100%" required></td>
+					</tr>
+					<tr>
+						<td>Donor Email:</td>
+						<td><input type="email" name="donorEmail" style="width: 100%" required></td>
+					</tr>
+					<tr>
+						<td>Donor Graduation Year:</td>
+						<td><input type="text" pattern="[0-9]{4}" name="donorGradYear" style="width: 100%" required></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input type="submit" style="width: 100%; background-color: #71C179" value="Submit and Donate"></td>
+					</tr>
+				</table>
+
+			</div>
+			
+			</form>
+			
+		</div>
+		
+	</div>
+	
+	<div class="animated" id="footerRow">
+
+		<div id="content">
+			
+			Copyright The Bald & The Beautiful 2016
+		
+			<br>
+		
+			<a href="#about" onclick="showContent('#about')">About</a> | 
+			<a href="#sponsors" onclick="showContent('#sponsors')">Sponsors</a> | 
+			<a href="#contact" onclick="showContent('#contact')">Contact Us</a> |  
+			<a href="#rankings" onclick="showContent('#rankings')">Dorm Rankings</a> | 
+			<a href="#faq" onclick="showContent('#faq')">FAQ</a> |
+			<a href="#register" onclick="showContent('#register')">Register</a> | 
+			<a href="https://shop.nd.edu/C21688_ustores/web/store_cat.jsp?STOREID=8&CATID=537&SINGLESTORE=true" target="_blank">Donate</a>
+		
+		</div>
+	
+	</div>
+	
+	</div>
+	
+	</div>
+	
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+	<script type="text/javascript" src="js/groundwork.all.js"></script>
+	<script type="text/javascript" src="js/custom.js"></script>
+	
+</body>
+
+</html>
