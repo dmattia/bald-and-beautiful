@@ -78,7 +78,7 @@
 				} else {
 					alert("Successful login");
 					console.log("Authenticated successfully with payload:", authData);
-					setProfileInfo();
+					setProfileInfo(get_current_user_uid());
 					showContent('#my_profile');
 				}
 			});
@@ -113,6 +113,7 @@
 						dict[userData.uid]["email"] = email_text
 						
 						// Snag their photo from their gmail
+						/*
 						alert("Login to google to prove ownership of account");
 						myFirebaseRef.authWithOAuthPopup("google", function(error, authData) {
 							if (error) {
@@ -125,6 +126,7 @@
 								showContent('#login');
 							}
 						});
+						*/
 					}
 				});
 			} else {
@@ -141,8 +143,40 @@
 			return false
 		}
 
-		function setProfileInfo() {
-			var uid = get_current_user_uid()
+		function get_all_profiles() {
+			myFirebaseRef.on('value', function(snapshot) {
+				var table = document.getElementById('table-data')
+				while(table.firstChild) {
+					table.removeChild(table.firstChild)
+				}
+				snapshot.forEach(function (childSnapshot) {
+					childSnapshot.forEach(function (userData) {
+						var uid = userData.key()
+
+						var row = document.createElement("tr")
+						var name = document.createElement("td")
+						var raised = document.createElement("td")
+
+						name.innerHTML = userData.val()['email']
+						raised.innerHTML = userData.val()['raised so far']
+
+						row.appendChild(name)
+						row.appendChild(raised)
+						var functionName = "showProfile('" + uid + "')"
+						row.setAttribute("onclick", functionName);
+						table.appendChild(row)
+					});
+				});
+			});
+			showContent('#profiles')
+		}
+
+		function showProfile(uid) {
+				setProfileInfo(uid);
+				showContent('#my_profile');
+		}
+
+		function setProfileInfo(uid) {
 			if(uid) {
 				myFirebaseRef.on('value', function(snapshot) {
 					snapshot.forEach(function (childSnapshot) {
@@ -294,6 +328,7 @@
 				<div id="mRankings">
 					<a href="#womens" onclick="showContent('#womens')">Women's Dorms</a>
 					<a href="#mens" onclick="showContent('#mens')">Men's Dorms</a>
+					<a href="#profiles" onclick="get_all_profiles()">View Profiles</a>
 				</div>						
 			</li>
 			<li>
@@ -316,12 +351,9 @@
 	<div id="my_profile" class="animated contentRow">
 		<div id="my_profileContent" class="row">
 			<div class="col s12 card white z-depth-4 animated fadeInUp">
-				<h1 align="center" style="padding-top: 20px; padding-bottom: 20px; text-shadow:none;" class="black-text thick">Your Profile</h1>
+				<h1 id="profileEmail" align="center" style="padding-top: 20px; padding-bottom: 20px; text-shadow:none;" class="black-text thick">Email</h1>
 			</div>
 			<div id="circleProgress" style="text-shadow:none;" class="col s2 offset-s5"></div>
-			<button id="profileEmail" class="waves-effect btn btn-large col s12 white green-text animated fadeInUp z-depth-2 card thick">
-				Email
-			</button>
 			<button id="profileProgress" class="waves-effect btn btn-large col s12 white green-text animated fadeInUp z-depth-2 card thick">
 				I have raised...
 			</button>
@@ -329,6 +361,21 @@
 				<h2 align="center">Why do I donate?</h2>
 				<h4 id="profileDescription">Why do I donate?!</h4>
 			</div>
+		</div>
+	</div>
+
+	<div id="profiles" class="animated contentRow">
+		<div id="profilesContent" class="row">
+			<table class="bordered centered">
+				<thead>
+					<tr>
+						<th data-field="email">Email</th>
+						<th data-field="raised">Money raised</th>
+					</tr>
+				</thead>
+				<tbody id="table-data">
+				</tbody>
+			</table>
 		</div>
 	</div>
 
