@@ -37,6 +37,7 @@ $(document).ready(function()
 	$("#mEvents").hide();
 	$("#mSponsors").hide();
 	$("#mRankings").hide();
+	$("#mAccounts").hide();
 	$("#mDonate").hide();
 
 	// Initialize event listeners
@@ -112,11 +113,19 @@ $(document).ready(function()
 		openMenu($("#mRankings"));
 	});
 
+	$("#accountsButton").mouseenter(function(){
+		openMenu($("#mAccounts"));
+	});
+
 	$("#donateButton").mouseenter(function(){
 		openMenu($("#mDonate"));
 	});
 
 	$("#aboutButton").mouseleave(function(){
+		startToClose();
+	});
+
+	$("#accountsButton").mouseleave(function(){
 		startToClose();
 	});
 
@@ -152,6 +161,10 @@ $(document).ready(function()
 		cancelClose();
 	});
 
+	$("#mAccounts").mouseenter(function(){
+		cancelClose();
+	});
+
 	$("#mDonate").mouseenter(function(){
 		cancelClose();
 	});
@@ -169,6 +182,10 @@ $(document).ready(function()
 	});
 
 	$("#mRankings").mouseleave(function(){
+		startToClose();
+	});
+
+	$("#mAccounts").mouseleave(function(){
 		startToClose();
 	});
 

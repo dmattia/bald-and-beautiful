@@ -86,6 +86,9 @@
 		}
 
 		function CreateNewAccount() {
+			var alumni_club = document.getElementById("alumni_club").value
+			var full_name = document.getElementById("full_name").value
+			var dorm = document.getElementById("dorm_create").value
 			var email_text = document.getElementById("email_create").value
 			var netid = email_text.substring(0, email_text.indexOf("@"))
 			var goal_amount = document.getElementById("goal").value
@@ -107,10 +110,16 @@
 						dict[userData.uid] = {}
 						dict[userData.uid]["netid"] = netid
 						dict[userData.uid]["goal"] = goal_amount
+						dict[userData.uid]["dorm"] = dorm
+						dict[userData.uid]["full name"] = full_name
+						dict[userData.uid]["alumni club"] = alumni_club
 						//dict[userData.uid]["pictureURL"] =  ""
 						dict[userData.uid]["description"] = description
 						dict[userData.uid]["raised so far"] = 0
 						dict[userData.uid]["email"] = email_text
+
+						myFirebaseRef.push(dict)
+						showContent('#login')
 						
 						// Snag their photo from their gmail
 						/*
@@ -157,7 +166,7 @@
 						var name = document.createElement("td")
 						var raised = document.createElement("td")
 
-						name.innerHTML = userData.val()['email']
+						name.innerHTML = userData.val()['full name']
 						raised.innerHTML = userData.val()['raised so far']
 
 						row.appendChild(name)
@@ -176,6 +185,60 @@
 				showContent('#my_profile');
 		}
 
+		mens_dorms = [
+			"Alumni",
+			"Carroll",
+			"Dillon",
+			"Duncan",
+			"Fisher",
+			"Keenan",
+			"Keough",
+			"Knott",
+			"Morrissey",
+			"O'Neill",
+			"St. Edward's",
+			"Siegfried",
+			"Sorin",
+			"Stanford",
+			"Zahm",
+		]
+		womens_dorms = [
+			'Badin',
+			'Breen-Phillips',
+			'Cavanaugh',
+			'Farley',
+			'Howard',
+			'Lewis',
+			'Lyons',
+			'McGlinn',
+			'Pangborn',
+			'Pasquerilla East',
+			'Pasquerilla West',
+			'Ryan',
+			'Walsh',
+			'Welsh Family',
+		]
+		function isaWomensDorm(dorm_name) {
+			return $.inArray(dorm_name, womens_dorms) != -1
+		}
+		function countDonors() {
+			counts = {}
+			myFirebaseRef.on('value', function(snapshot) {
+				counts = {}
+				snapshot.forEach(function (childSnapshot) {
+					childSnapshot.forEach(function (userData) {
+						// check if this dorm already has members
+						if (counts[userData.val()["dorm"]] != undefined) {
+							counts[userData.val()["dorm"]] = counts[userData.val()["dorm"]] + 1
+						} else {
+							counts[userData.val()["dorm"]] = 1
+						}
+					})
+				})
+			})
+			return counts
+		}
+
 		function setProfileInfo(uid) {
 			if(uid) {
 				myFirebaseRef.on('value', function(snapshot) {
@@ -185,7 +248,7 @@
 							console.log(userInfo)
 							var percent = userInfo["raised so far"] / userInfo["goal"]
 							console.log("percent:", percent);
-							document.getElementById("profileEmail").innerHTML = userInfo["email"]
+							document.getElementById("profileEmail").innerHTML = userInfo["full name"]
 							document.getElementById("profileDescription").innerHTML = userInfo["description"]
 							document.getElementById("profileProgress").innerHTML = "So far I have raised $" + userInfo["raised so far"] + ", with a goal of $" + userInfo["goal"]
 		
@@ -332,10 +395,14 @@
 				</div>						
 			</li>
 			<li>
-				<a href="#register" onclick="showContent('#register')" id="registerButton"><span><b>&#10549;</b>Register<b>&#10549;</b></span></a>
+				<a href="#accounts" onclick="showContent('#register')" id="accountsButton"><span><b>&#10549;</b>Account<b>&#10549;</b></span></a>
+				<div id="mAccounts">
+					<a href="#register" onclick="showContent('#register')" id="registerButton"><span><b>&#10549;</b>Register<b>&#10549;</b></span></a>
+					<a href="#login" onclick="showContent('#login')" id="loginButton"><span><b>&#10549;</b>Login<b>&#10549;</b></span></a>
+				</div>
 			</li>
 			<li>
-				<a href="#login" onclick="showContent('#login')" id="loginButton"><span><b>&#10549;</b>Login<b>&#10549;</b></span></a>
+				<a href="#" onclick="get_all_profiles()" id="profilesButton"><span><b>&#10549;</b>Profiles<b>&#10549;</b></span></a>
 			</li>
 			<li>
 				<a href="https://shop.nd.edu/C21688_ustores/web/store_cat.jsp?STOREID=8&CATID=537&SINGLESTORE=true" id="donateButton" target="_blank"><span>Donate &#10549;</span></a>
@@ -366,10 +433,10 @@
 
 	<div id="profiles" class="animated contentRow">
 		<div id="profilesContent" class="row">
-			<table class="bordered centered">
+			<table class="bordered centered flow-text">
 				<thead>
 					<tr>
-						<th data-field="email">Email</th>
+						<th data-field="name">Name</th>
 						<th data-field="raised">Money raised</th>
 					</tr>
 				</thead>
@@ -720,7 +787,7 @@
 
 <div id="mensContent">
 
-	<div id="visualizationShave" style="width: 100%; height: 100%;"></div>
+	<div id=" flow-textvisualizationShave" style="width: 100%; height: 100%;"></div>
 
 </div>
 
@@ -744,8 +811,59 @@
 	<form class="col s12" id="loginForm" onsubmit="return CreateNewAccount();">
 		<div class="row">
 			<div class="input-field col s12">
+				<input id="full_name" type="text" required>
+				<label for="full_name">Full Name</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12">
 				<input id="email_create" type="email" class="validate" pattern="[a-zA-Z0-9]+@nd.edu">
 				<label for="email_create" data-error="Must be a @nd.edu" data-success="right">Email</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12">
+				<input id="alumni_club" type="text" required>
+				<label for="alumni_club">Alumni Club</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="input-field col s12">
+				<select id="dorm_create" class="browser-default flow-text" style="color:#202020;">
+					<optgroup label="Men's Dorms">
+						<option value="Alumni">Alumni</option>
+						<option value="Carroll">Carroll</option>
+						<option value="Dillon">Dillon</option>
+						<option value="Duncan">Duncan</option>
+						<option value="Fisher">Fisher</option>
+						<option value="Keenan">Keenan</option>
+						<option value="Keough">Keough</option>
+						<option value="Knott">Knott</option>
+						<option value="Morrissey">Morrissey</option>
+						<option value="O'Neill">O'Neill</option>
+						<option value="St. Edward's">St. Edward's</option>
+						<option value="Siegfried">Siegfried</option>
+						<option value="Sorin">Sorin</option>
+						<option value="Stanford">Stanford</option>
+						<option value="Zahm">Zahm</option>
+					</optgroup>
+					<optgroup label="Women's Dorms">
+						<option value="Badin">Badin</option>
+						<option value="Breen-Phillips">Breen-Phillips</option>
+						<option value="Cavanaugh">Cavanaugh</option>
+						<option value="Farley">Farley</option>
+						<option value="Howard">Howard</option>
+						<option value="Lewis">Lewis</option>
+						<option value="Lyons">Lyons</option>
+						<option value="McGlinn">McGlinn</option>
+						<option value="Pangborn">Pangborn</option>
+						<option value="Pasquerilla East">Pasquerilla East</option>
+						<option value="Pasquerilla West">Pasquerilla West</option>
+						<option value="Ryan">Ryan</option>
+						<option value="Walsh">Walsh</option>
+						<option value="Welsh Family">Welsh Family</option>
+					</optgroup>
+				</select>
 			</div>
 		</div>
 		<div class="row">
