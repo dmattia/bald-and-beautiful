@@ -152,6 +152,52 @@
 			return false
 		}
 
+		function getWomensRankings() {
+			console.log(womenCounts)
+			var table = document.getElementById('womens-table-data')
+			while(table.firstChild) {
+				table.removeChild(table.firstChild)
+			}
+			for (var key in womenCounts) {
+				console.log("Adding key: " + key)
+				var row = document.createElement("tr")
+				var dorm = document.createElement("td")
+				var participants = document.createElement("td")
+	
+				dorm.innerHTML = key
+				participants.innerHTML = womenCounts[key]
+
+				row.appendChild(dorm)
+				row.appendChild(participants)
+				table.appendChild(row)
+			}
+
+			showContent('#womens')
+		}
+
+		function getMensRankings() {
+			console.log(menCounts)
+			var table = document.getElementById('mens-table-data')
+			while(table.firstChild) {
+				table.removeChild(table.firstChild)
+			}
+			for (var key in menCounts) {
+				console.log("Adding key: " + key)
+				var row = document.createElement("tr")
+				var dorm = document.createElement("td")
+				var participants = document.createElement("td")
+	
+				dorm.innerHTML = key
+				participants.innerHTML = menCounts[key]
+
+				row.appendChild(dorm)
+				row.appendChild(participants)
+				table.appendChild(row)
+			}
+
+			showContent('#mens')
+		}
+
 		function get_all_profiles() {
 			myFirebaseRef.on('value', function(snapshot) {
 				var table = document.getElementById('table-data')
@@ -201,6 +247,7 @@
 			"Sorin",
 			"Stanford",
 			"Zahm",
+			"Offcampus Male"
 		]
 		womens_dorms = [
 			'Badin',
@@ -217,27 +264,43 @@
 			'Ryan',
 			'Walsh',
 			'Welsh Family',
+			'Offcampus Female'
 		]
 		function isaWomensDorm(dorm_name) {
 			return $.inArray(dorm_name, womens_dorms) != -1
 		}
-		function countDonors() {
-			counts = {}
+
+		//function countDonors() {
+			menCounts = {}
+			womenCounts = {}
 			myFirebaseRef.on('value', function(snapshot) {
-				counts = {}
+				// clear @menCounts and @womenCounts
+				for (var key in menCounts) {
+					menCounts[key] = 0
+				}
+				for (var key in womenCounts) {
+					womenCounts[key] = 0
+				}
 				snapshot.forEach(function (childSnapshot) {
 					childSnapshot.forEach(function (userData) {
-						// check if this dorm already has members
-						if (counts[userData.val()["dorm"]] != undefined) {
-							counts[userData.val()["dorm"]] = counts[userData.val()["dorm"]] + 1
+						if (isaWomensDorm(userData.val()["dorm"])) {
+							if (womenCounts[userData.val()["dorm"]] != undefined) {
+								womenCounts[userData.val()["dorm"]] = womenCounts[userData.val()["dorm"]] + 1
+							} else {
+								womenCounts[userData.val()["dorm"]] = 1
+							}
 						} else {
-							counts[userData.val()["dorm"]] = 1
+							if (menCounts[userData.val()["dorm"]] != undefined) {
+								menCounts[userData.val()["dorm"]] = menCounts[userData.val()["dorm"]] + 1
+							} else {
+								menCounts[userData.val()["dorm"]] = 1
+							}
 						}
 					})
 				})
+				//getMensRankings()
 			})
-			return counts
-		}
+		//}
 
 		function setProfileInfo(uid) {
 			if(uid) {
@@ -288,6 +351,7 @@
 	</script>
 
 	<!-- Rankings -->
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script type="text/javascript" src="js/customBefore.js"></script>
 	
@@ -389,9 +453,8 @@
 			<li>
 				<a href="#rankings" onclick="showContent('#rankings')" id="rankingsButton"><span>Rankings &#10549;</span></a>	
 				<div id="mRankings">
-					<a href="#womens" onclick="showContent('#womens')">Women's Dorms</a>
-					<a href="#mens" onclick="showContent('#mens')">Men's Dorms</a>
-					<a href="#profiles" onclick="get_all_profiles()">View Profiles</a>
+					<a href="#womens" onclick="getWomensRankings()">Women's Dorms</a>
+					<a href="#mens" onclick="getMensRankings()">Men's Dorms</a>
 				</div>						
 			</li>
 			<li>
@@ -787,7 +850,17 @@
 
 <div id="mensContent">
 
-	<div id=" flow-textvisualizationShave" style="width: 100%; height: 100%;"></div>
+	<!--<div id=" flow-textvisualizationShave" style="width: 100%; height: 100%;"></div>-->
+	<table class="bordered centered flow-text">
+		<thead>
+			<tr>
+				<th data-field="name">Dorm</th>
+				<th data-field="raised">Participants</th>
+			</tr>
+		</thead>
+		<tbody id="mens-table-data">
+		</tbody>
+	</table>
 
 </div>
 
@@ -797,7 +870,16 @@
 
 <div id="womensContent">
 
-	<div id="visualizationDonation" style="width: 100%; height: 100%;"></div>
+	<table class="bordered centered flow-text">
+		<thead>
+			<tr>
+				<th data-field="name">Dorm</th>
+				<th data-field="raised">Participants</th>
+			</tr>
+		</thead>
+		<tbody id="womens-table-data">
+		</tbody>
+	</table>
 
 </div>
 
@@ -846,6 +928,7 @@
 						<option value="Sorin">Sorin</option>
 						<option value="Stanford">Stanford</option>
 						<option value="Zahm">Zahm</option>
+						<option value="Offcampus Male">Offcampus Male</option>
 					</optgroup>
 					<optgroup label="Women's Dorms">
 						<option value="Badin">Badin</option>
@@ -862,6 +945,7 @@
 						<option value="Ryan">Ryan</option>
 						<option value="Walsh">Walsh</option>
 						<option value="Welsh Family">Welsh Family</option>
+						<option value="Offcampus Female">Offcampus Female</option>
 					</optgroup>
 				</select>
 			</div>
